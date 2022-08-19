@@ -1,7 +1,7 @@
 # opendatacam-ei
 ## Jetson Opendatacam on gpu and Edge Impulse on CPU
 
-To start Opendatacam, go to <your device IP>:8080
+To start Opendatacam, go to \<your device IP\>:8080
 
 See the [Opendatacam repo](https://github.com/balenalabs-incubator/opendatacam) for details about OpenDataCam settings.
 
