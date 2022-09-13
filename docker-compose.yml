@@ -5,7 +5,7 @@ volumes:
 services:
   opendatacam:
     restart: always
-    build: .
+    build: ./opendatacam
     privileged: true
     volumes:
       - 'db-data:/data/db'

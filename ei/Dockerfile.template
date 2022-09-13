@@ -17,4 +17,9 @@ RUN apt install -y gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plu
 
 ENV UDEV=on
 
-CMD ["sleep","infinity"]
+#CMD ["sleep","infinity"]
+
+COPY ./app/ /usr/src/app/
+RUN chmod +x /usr/src/app/ei_run.sh
+
+CMD ["/usr/src/app/ei_run.sh"]
