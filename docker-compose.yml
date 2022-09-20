@@ -2,10 +2,11 @@ version: '2'
 volumes:
     db-data:
     config-data:
+    ei-data:
 services:
   opendatacam:
     restart: always
-    build: .
+    build: ./opendatacam
     privileged: true
     volumes:
       - 'db-data:/data/db'
@@ -34,3 +35,5 @@ services:
       - "80:80"
     environment:
       PULSE_SERVER: tcp:audio:4317
+    volumes:
+      - 'ei-data:/data/ei'
