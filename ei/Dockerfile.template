@@ -19,6 +19,9 @@ RUN chmod +x jetson.sh && ./jetson.sh
 
 COPY *.py ./
 
+COPY *.sh ./
+RUN chmod +x ei_run.sh
+
 ENV UDEV=on
 
-CMD ["sleep","infinity"]
+CMD ["bash", "ei_run.sh"]
