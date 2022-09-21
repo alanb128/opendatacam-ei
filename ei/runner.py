@@ -4,21 +4,23 @@ import datetime
 import time
 import csv
 
-line_left = "583e3f17-56de-4926-ab74-22fc4eb6afe8" # line_left
-line_right = "6841ecc6-ccdd-4988-b913-159aab85ab28" # line_right
-sample_interval = 60  # seconds
-recording_count = 1
-
+# TODO: Make these device variables
 save_data_files = True
 upload_data_files = False
 inference_on = False
+line_left = "583e3f17-56de-4926-ab74-22fc4eb6afe8" # line_left
+line_right = "6841ecc6-ccdd-4988-b913-159aab85ab28" # line_right
+sample_interval = 60  # seconds
+
+# Initialize global variables
+recording_count = 1
 fieldnames = ['timestamp', 'journey_dur', 'hod']
 final = []
 
 def get_traffic(total_cars):
 
     #
-    #
+    # Categorizes traffic levels based on car count
     #
 
     if total_cars < 6:
@@ -45,7 +47,7 @@ def get_last_recording():
 def save_rec_data(recording_id):
 
     #
-    # saves (overwrites) recording data in features.txt
+    # Pulls recording data and saves to file for inference or training
     #
     cars = []
     #journey = {"id": 0, "left_time": "2022-09-14T22:59:07.479Z", "right_time": "2022-09-14T22:59:07.479Z"}
@@ -156,4 +158,13 @@ while True:
     r = requests.get("http://opendatacam:8080/recording/stop")
     rr = get_last_recording()
     save_rec_data(rr)
+    
+    if inference_on:
+        # Call EI inference code here
+        pass
+   
+    if upload_data_files:
+        # Upload files back to EI for training
+        pass
+
     recording_count = recording_count + 1
