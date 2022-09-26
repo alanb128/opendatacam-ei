@@ -46,9 +46,9 @@ classification = "unknown"  # Most recent onboard classification by EI model
 feature = ""  # Most recent feature from sample
 
 # FOR TESTING ONLY!!!!
-sample_interval = 30
+sample_interval = 45
 upload_data_files = True
-demo_mode = True
+#demo_mode = True
 #line_left = '583e3f17-56de-4926-ab74-22fc4eb6afe8' # line_left
 #line_right = '6841ecc6-ccdd-4988-b913-159aab85ab28'
 line_left_name = "line_south"
@@ -78,7 +78,7 @@ def get_last_recording():
     for recording in recordings['recordings']:
         recording_id = recording['_id']
 
-    print("Last recording is: {}.".format(recording_id))
+    #print("Last recording is: {}.".format(recording_id))
     return recording_id
 
 def save_rec_data(recording_id):
@@ -160,45 +160,49 @@ def save_rec_data(recording_id):
             final.append({'timestamp': int(car['timestamp']), 'journey_dur': int(car['duration']), 'hod': car['hod']})
     print("Found {} car journey(s).".format(car_count))
 
-    # Summarize the final list
-    journey_sum = 0
-    hod = 0
-    for item in final:
-        journey_sum = journey_sum + int(item['journey_dur'])
-        hod = item['hod']  # will only get last value in final
+    if car_count > 0:
+        # Summarize the final list
+        journey_sum = 0
+        hod = 0
+        for item in final:
+            journey_sum = journey_sum + int(item['journey_dur'])
+            hod = item['hod']  # will only get last value in final
         final_mod = [car_count, journey_sum/car_count]
         print("Final sample data: {}".format(final_mod))
-    if save_data_files:
-        nf = "{:02d}{:02d}{:02d}{:02d}{:02d}".format(rec_date.month, rec_date.day, rec_date.hour, rec_date.minute, rec_date.second)
-        feature = get_traffic(total_car_count)
-        fname = feature + ".sample" + nf + ".csv"
-        with open(fname, "w", encoding="UTF8", newline="") as csvs:
-            writer = csv.writer(csvs)
-            writer.writerow(fieldnames)
-            writer.writerow(final_mod)
-        csvs.close()
-        print("SAVE_DATA_FILES=True; Saved to file: {}".format(fname))
-        #
-        # Alternate way of saving data files below
-        # This provides one car per row with timestamp
-        #if car_count == 0:
-        #    print("NOTE: No cars detected, using default values!")
-        #    final.append({'timestamp': 1000, 'journey_dur': 1000, 'hod': 0} )
-        #with open(fname, "w", encoding="UTF8", newline="") as csvf:
-        #    writer = csv.DictWriter(csvf, fieldnames=fieldnames)
-        #    writer.writeheader()
-        #    writer.writerows(final)
-        #print("SAVED_DATA_FILE=True; Saved to file: {}".format(fname))
-        #
-    # Always save to features.txt if needed for inferencing or uploading
-    # convert final to format for model here
+        if save_data_files:
+            nf = "{:02d}{:02d}{:02d}{:02d}{:02d}".format(rec_date.month, rec_date.day, rec_date.hour, rec_date.minute, rec_date.second)
+            feature = get_traffic(total_car_count)
+            fname = feature + ".sample" + nf + ".csv"
+            with open(fname, "w", encoding="UTF8", newline="") as csvs:
+                writer = csv.writer(csvs)
+                writer.writerow(fieldnames)
+                writer.writerow(final_mod)
+            csvs.close()
+            print("SAVE_DATA_FILES=True; Saved to file: {}".format(fname))
+            #
+            # Alternate way of saving data files below
+            # This provides one car per row with timestamp
+            #if car_count == 0:
+            #    print("NOTE: No cars detected, using default values!")
+            #    final.append({'timestamp': 1000, 'journey_dur': 1000, 'hod': 0} )
+            #with open(fname, "w", encoding="UTF8", newline="") as csvf:
+            #    writer = csv.DictWriter(csvf, fieldnames=fieldnames)
+            #    writer.writeheader()
+            #    writer.writerows(final)
+            #print("SAVED_DATA_FILE=True; Saved to file: {}".format(fname))
+            #
 
-    with open("features.txt", "w", encoding="UTF8", newline="") as csvf:
-        writer = csv.writer(csvf)
-        #writer.writeheader()
-        writer.writerow(final_mod)
-    csvf.close()
-    print("Saved features.txt")
+        # Always save to features.txt if needed for inferencing or uploading
+
+        with open("features.txt", "w", encoding="UTF8", newline="") as csvf:
+            writer = csv.writer(csvf)
+            # no header
+            writer.writerow(final_mod)
+        csvf.close()
+        #print("Saved features.txt")
+    else:
+        print("No files saved...")
+        return 99
 
     return 0
 
@@ -214,6 +218,7 @@ def EI_inference():
     #
 
     global classification
+    print("     ")
     print("Starting local EI inference on model...")
 
     runner = None
@@ -238,7 +243,7 @@ def EI_inference():
         result = res['result']['classification']
         sort = sorted(result.items(), key=value_getter)
         #print("sorted: {}".format(sort))
-        print("Local classification results:")
+        print("^^^^ Local classification results: ^^^^")
         for s in sort:
             print("{}: {}%".format(s[0], int(s[1] * 100)))
             classification = s[0]  # Should give us the last (highest) one!
@@ -255,7 +260,8 @@ def EI_collect():
     # Send collected sample back to EI for re-training
     # https://github.com/edgeimpulse/linux-sdk-python/blob/master/examples/custom/collect.py
     #
-
+    print("      ")
+    print("Preparing to upload data file to Edge Impulse")
     # empty signature (all zeros). HS256 gives 32 byte signature, and we encode in hex, so we need 64 characters here
     emptySignature = ''.join(['0'] * 64)
 
@@ -376,6 +382,7 @@ def get_odc_lines():
 # Start here
 
 print("####################################################")
+print("     ")
 if demo_mode:
     print("Starting runner in DEMO mode...")
 else:
@@ -384,17 +391,19 @@ if get_odc_lines() != 0:
     print("Incorrect or no counting lines in Opendatacam. Please fix and then re-run.")
     sys.exit(0)
 while True:
-    print("-----------------------------------------------")
+    print("     ")
+    print("####################################################")
+    print("     ")
     if demo_mode:
-        print("Started mock recording {} for next {} second(s)...".format(recording_count, sample_interval))
+        print("Started mock recording #{} for next {} second(s)...".format(recording_count, sample_interval))
     else:
         r = requests.get("http://opendatacam:8080/recording/start")
-        print("Started recording {} for next {} second(s)...".format(recording_count, sample_interval))
+        print("Started recording #{} for next {} second(s)...".format(recording_count, sample_interval))
         print("Response from odc: {}".format(r.text))
 
     started = datetime.datetime.now()
     started_formatted = "{:02d}{:02d}{:02d}{:02d}{:02d}".format(started.month, started.day, started.hour, started.minute, started.second)
-    print("Started recording file: {}.".format(started_formatted))
+    #print("Started recording file: {}.".format(started_formatted))
 
     interval_qtr = sample_interval/4
     time.sleep(interval_qtr)
@@ -424,5 +433,6 @@ while True:
 
     else:
         print("No cars detected, skipping inference/upload and moving to next recording.")
+        print("     ")
 
     recording_count = recording_count + 1
