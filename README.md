@@ -4,6 +4,10 @@ An implementation of [OpenDataCam 3.0.1](https://github.com/opendatacam/opendata
 ## For Edge Impulse Imagine 2022 Demo
 This version runs EI on the CPU and Opendatacam on the GPU
 
+For this demo, you must start the Opendatacam UI first by browsing to <local IP>:8080
+  
+The script must manually be started in the ei service by running `runner.py` in `/usr/src/app`
+  
 The EI service starts data recordings of opendatacam and then runs inferences on them. The model used is determined by the API_KEY and HMAC_KEY, which causes the specified model to be downloaded at the container start. Optionally, the resulting data files can be uploaded back up to EI for re-training the model. The following device variables can be used:
 
 `SAVE_DATA_FILES` - Specifies if each data file be saved on the device. Default is `1` which is True, set to `0` for False.
