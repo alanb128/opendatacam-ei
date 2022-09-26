@@ -10,4 +10,5 @@ sleep 10
 
 # Start our Python script that pulls data from Opendatacam,
 #   runs inferences, and optionally sends training files back to EI cloud
-python3 runner.py
+# python3 runner.py
+sleep infinity
