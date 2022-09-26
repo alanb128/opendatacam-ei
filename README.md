@@ -24,7 +24,7 @@ The EI service starts data recordings of opendatacam and then runs inferences on
 
 `SAMPLE_INTERVAL` Set to number of seconds to record a sample. Default is 60.
 
-You must have two counting lines crossing a road and they should be 110 feet (34 meters) apart. Naming should be as follows:
+In Opendatacam you must have two counting lines crossing a road and they should be 110 feet (34 meters) apart. Naming should be as follows:
 
 `LINE_LEFT_NAME` Set to the name used for the left counter line in Opendatacam. Default is `line_left`.
 
