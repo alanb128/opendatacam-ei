@@ -4,7 +4,7 @@ An implementation of [OpenDataCam 3.0.1](https://github.com/opendatacam/opendata
 ## For Edge Impulse Imagine 2022 Demo
 This version runs EI on the CPU and Opendatacam on the GPU
 
-For this demo, you must start the Opendatacam UI first by browsing to <local IP>:8080
+For this demo, you must start the Opendatacam UI first by browsing to local IP:8080
   
 The script must manually be started in the ei service by running `runner.py` in `/usr/src/app`
   
