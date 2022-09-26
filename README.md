@@ -24,9 +24,11 @@ The EI service starts data recordings of opendatacam and then runs inferences on
 
 `SAMPLE_INTERVAL` Set to number of seconds to record a sample. Default is 60.
 
-`LINE_LEFT_NAME` Set to the name used for the left counter line in Opendatacam. Default is `line_south`.
+You must have two counting lines crossing a road and they should be 110 feet (34 meters) apart. Naming should be as follows:
 
-`LINE_RIGHT_NAME` Set to the name used for the right counter line in Opendatacam. Default is `line_north`.
+`LINE_LEFT_NAME` Set to the name used for the left counter line in Opendatacam. Default is `line_left`.
+
+`LINE_RIGHT_NAME` Set to the name used for the right counter line in Opendatacam. Default is `line_right`.
 
 ## Updated October 20, 2021:
 The repo has been updated to OpenDataCam 3.0.2 along with updates to run faster on a TX2.
