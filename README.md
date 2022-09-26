@@ -1,6 +1,29 @@
 # OpenDataCam
 An implementation of [OpenDataCam 3.0.1](https://github.com/opendatacam/opendatacam) that is fully containerized and runs on balena + Jetson Nano/TX2/Xavier. 
 
+## For Edge Impulse Imagine 2022 Demo
+This version runs EI on the CPU and Opendatacam on the GPU
+
+The EI service starts data recordings of opendatacam and then runs inferences on them. The model used is determined by the API_KEY and HMAC_KEY, which causes the specified model to be downloaded at the container start. Optionally, the resulting data files can be uploaded back up to EI for re-training the model. The following device variables can be used:
+
+`SAVE_DATA_FILES` - Specifies if each data file be saved on the device. Default is `1` which is True, set to `0` for False.
+
+`UPLOAD_DATA_FILES` - Setting to `1` adds a collection mode for EI. Default is `0` for False. When active, it will upload each data file back to EI and you will have an option to change the default label, which is set to the inferenced value.
+
+`INFERENCE_ON` - Default is `1` for True to perform a local EI inference on the device. Set to `0` to disable.
+
+`DEMO_MODE` - Default is `0` for off. Set to `1` to run in demo mode, which pulls the data from demo data and does not connect at all to Opendatacam (for instance at night or if camera is broken)
+
+`HMAC_KEY` - Set to EI HMAC Key for the desired impulse to be downloaded and used.
+
+`API_KEY` Set to the EI API key for the desired impulse to be downloaded and used.
+
+`SAMPLE_INTERVAL` Set to number of seconds to record a sample. Default is 60.
+
+`LINE_LEFT_NAME` Set to the name used for the left counter line in Opendatacam. Default is `line_south`.
+
+`LINE_RIGHT_NAME` Set to the name used for the right counter line in Opendatacam. Default is `line_north`.
+
 ## Updated October 20, 2021:
 The repo has been updated to OpenDataCam 3.0.2 along with updates to run faster on a TX2.
 
