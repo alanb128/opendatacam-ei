@@ -30,6 +30,8 @@ In Opendatacam you must have two counting lines crossing a road and they should 
 
 `LINE_RIGHT_NAME` Set to the name used for the right counter line in Opendatacam. Default is `line_right`.
 
+Currently, there can only be exactly two counting lines with naming as above for this to work.
+
 ## Updated October 20, 2021:
 The repo has been updated to OpenDataCam 3.0.2 along with updates to run faster on a TX2.
 
