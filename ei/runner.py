@@ -278,7 +278,7 @@ def EI_collect():
         for row in csv_reader:
             #print("row 0:{}".format(row[0]))
             #print("row 1:{}".format(row[1]))
-            values_list.append([int(row[0]), int(float(row[1])), 19])
+            values_list.append([int(row[0]), int(float(row[1]))])
             #values_list.append([5,2323,19])
     data = {
         "protected": {
