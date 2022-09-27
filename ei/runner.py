@@ -26,8 +26,8 @@ if os.getenv('DEMO_MODE', '0') == '1':
     demo_mode = True
 else:
     demo_mode = False
-hmac_key = os.getenv('HMAC_KEY', '865ef88f6c5eb99e1503e6f70b21d937')
-api_key = os.getenv('API_KEY', 'ei_a9eff7f54d2e882e8c8580f5be5f4095ef3453e7eec0d7489aa700ea15b7a7c5')
+hmac_key = os.getenv('HMAC_KEY')
+api_key = os.getenv('API_KEY')
 line_left_name = os.getenv('LINE_LEFT_NAME', 'line_left')
 line_right_name = os.getenv('LINE_RIGHT_NAME', 'line_right')
 line_left = ''
@@ -40,19 +40,19 @@ demo_index = 0  # last demo index used
 
 # Initialize global variables
 recording_count = 1
-fieldnames = ['timestamp', 'journey_dur', 'hod']
+fieldnames = ['car_count', 'avg_speed']
 final = []
 classification = "unknown"  # Most recent onboard classification by EI model
 feature = ""  # Most recent feature from sample
 
 # FOR TESTING ONLY!!!!
-sample_interval = 45
-upload_data_files = True
+#sample_interval = 45
+#upload_data_files = True
 #demo_mode = True
 #line_left = '583e3f17-56de-4926-ab74-22fc4eb6afe8' # line_left
 #line_right = '6841ecc6-ccdd-4988-b913-159aab85ab28'
-line_left_name = "line_south"
-line_right_name = "line_north"
+#line_left_name = "line_south"
+#line_right_name = "line_north"
 
 def get_traffic(total_cars):
 
@@ -269,7 +269,7 @@ def EI_collect():
     device_name =":".join(re.findall('..', '%012x' % uuid.getnode()))
 
     # here we have new data every 60,000 ms
-    INTERVAL_MS = 60000
+    INTERVAL_MS = 1000  # was 60000
 
     # pull the values from the features.txt file
     values_list=[]
@@ -292,9 +292,8 @@ def EI_collect():
             "device_type": "LINUX_TEST",
             "interval_ms": INTERVAL_MS,
             "sensors": [
-                { "name": "cars", "units": "units" },
-                { "name": "avg_speed", "units": "ms" },
-                { "name": "hod", "units": "hour" }
+                { "name": "car_count", "units": "units" },
+                { "name": "avg_speed", "units": "ms" }
             ],
             "values": values_list
         }
