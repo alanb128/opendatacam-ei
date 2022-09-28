@@ -3,7 +3,7 @@
 # Here we download the latest model each time the container starts
 
 # EI_API_KEY defined as environment variables in BalenaCloud
-edge-impulse-linux-runner --api-key $EI_API_KEY --download modelfile.eim
+edge-impulse-linux-runner --api-key $API_KEY --download modelfile.eim
 
 # Give the downloader some breathing time
 sleep 10
