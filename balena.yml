@@ -5,7 +5,7 @@ assets:
   repository:
     type: "blob.asset"
     data:
-      url: "https://github.com/balenalabs-incubator/opendatacam"
+      url: "https://github.com/alanb128/opendatacam-ei"
   logo:
     type: "blob.asset"
     data:
