@@ -16,7 +16,7 @@ COPY jetson.sh .
 RUN chmod +x jetson.sh && ./jetson.sh
 
 # Required by edge_impulse_linux Python module
-apt-get install libatlas-base-dev libportaudio2 libportaudiocpp0 portaudio19-dev python3-pyaudio libgl1
+RUN apt-get install libatlas-base-dev libportaudio2 libportaudiocpp0 portaudio19-dev python3-pyaudio libgl1
 
 RUN pip3 install requests six edge_impulse_linux
 
